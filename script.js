@@ -10,13 +10,8 @@ $(document).ready(function () {
     $.getJSON("https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?").done(update);
   });
 
-  $('#tweetQuoteButton').click(function(){
-    window.open(tweetURL);
-  });
 });
 
-//a url that directs the user to tweet about the current quote.
-var tweetURL = "";
 
 //takes in data which is an object that has properties "quoteText" and "quoteAuthor"
 //if no "quoteAuthor" is given, then author is set to anonymous
@@ -31,9 +26,7 @@ function update(data) {
   }
   $("#author").text( author );
 
-  buildTweetURL(data.quoteText, author);
-};
+  let tweetURL = "https://twitter.com/intent/tweet?text=" + data.quoteText + ' - ' + author;
 
-function buildTweetURL(quote, author) {
-  tweetURL = "https://twitter.com/intent/tweet?text=" + quote + ' - ' + author;
-}
+  $("#tweet-quote").attr("href", tweetURL);
+};
