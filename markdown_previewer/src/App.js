@@ -1,49 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 
 function App() {
   return (
     <div className="App">
-      <Editor />
-      <Preview />
+      <Container />
     </div>
   );
 }
 
 export default App;
 
-class Editor extends React.Component {
-  constructor(props) {
+class Container extends React.Component {
+  constructor(props){
     super(props);
     this.state = {
-      input: ''
+      markdown: ''
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({
-      input: event.target.value
+      markdown: event.target.value
     });
   }
 
   render() {
     return(
-      <textarea id="editor" value={this.state.input} onChange={this.handleChange}></textarea>
+      <div>
+        <Editor markdown={this.state.markdown} onChange={this.handleChange}/>
+        <Preview markdown={this.state.markdown}/>
+      </div>
     );
   }
 }
 
-class Preview extends React.Component {
-  constructor(props){
-    super(props);
-  }
+const Editor = (props) => {
+  return (
+    <textarea id="editor" value={props.markdown} onChange={props.onChange} type="text"></textarea>
+  );
+}
 
-  render() {
-    return(
-      <div id="preview"></div>
-    );
-  }
+const Preview = (props) => {
+  return (
+    <div id="preview">{props.markdown}</div>
+  )
 }
