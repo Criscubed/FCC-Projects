@@ -5,9 +5,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #EEE;
+  display: grid;
+  place-items: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#editor {
+  height: 38vh;
+  width: 80vw;
+  margin: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  box-shadow: 0 2px 2px #CCC;
+  border: none;
+}
+
+#editor::before {
+  height: 10px;
+  width: 50vw;
+  background: black;
+  content: "lmao";
+}
+
+#preview {
+  width: 80vw;
+  border: 1px black;
+  box-shadow: 0 2px 2px #CCC;
+  background: white;
+}
+
+ul {
+  text-align: center;
+  list-style-position: inside;
 }
