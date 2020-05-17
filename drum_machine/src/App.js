@@ -26,29 +26,40 @@ const sounds={
 class DrumMachine extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      display: "bitch"
+    };
+    this.changeDisplay = this.changeDisplay.bind(this);
+  }
+
+  changeDisplay(value){
+    this.setState({
+      display: value
+    });
   }
 
   render() {
     return(
       <div id="drum-machine">
-        <Display />
-        <DrumPad letter="Q" />
-        <DrumPad letter="W" />
-        <DrumPad letter="E" />
-        <DrumPad letter="A" />
-        <DrumPad letter="S" />
-        <DrumPad letter="D" />
-        <DrumPad letter="Z" />
-        <DrumPad letter="X" />
-        <DrumPad letter="C" />
+        <Display display={this.state.display}/>
+        <DrumPad letter="Q" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="W" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="E" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="A" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="S" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="D" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="Z" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="X" changeDisplay={this.changeDisplay}/>
+        <DrumPad letter="C" changeDisplay={this.changeDisplay}/>
       </div>
     );
   }
 }
 
-const Display = () => {
+const Display = (props) => {
   return(
     <div id="display">
+      {props.display}
     </div>
   );
 }
@@ -83,6 +94,7 @@ class DrumPad extends React.Component {
     if(soundPromise !== undefined){
       soundPromise.then(_ => { /*nothing???*/ }).catch(error => { /*still nothing/??*/ });
     }
+    this.props.changeDisplay(this.props.letter)
   }
 
   render() {
