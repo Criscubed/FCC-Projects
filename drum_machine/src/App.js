@@ -26,33 +26,21 @@ const sounds={
 class DrumMachine extends React.Component {
   constructor(props){
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    let sound = document.getElementById(e.target.getAttribute("clipid"));
-    sound.currentTime = 0;
-    let soundPromise = sound.play();
-    //the lines of code below are to deal with errors being thrown and i have no idea what they're doing.
-    // source https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
-    if(soundPromise !== undefined){
-      soundPromise.then(_ => { /*nothing???*/ }).catch(error => { /*still nothing/??*/ });
-    }
   }
 
   render() {
     return(
       <div id="drum-machine">
         <Display />
-        <DrumPad letter="Q" onClick={this.handleClick} />
-        <DrumPad letter="W" onClick={this.handleClick} />
-        <DrumPad letter="E" onClick={this.handleClick} />
-        <DrumPad letter="A" onClick={this.handleClick}/>
-        <DrumPad letter="S" onClick={this.handleClick}/>
-        <DrumPad letter="D" onClick={this.handleClick}/>
-        <DrumPad letter="Z" onClick={this.handleClick}/>
-        <DrumPad letter="X" onClick={this.handleClick}/>
-        <DrumPad letter="C" onClick={this.handleClick}/>
+        <DrumPad letter="Q" />
+        <DrumPad letter="W" />
+        <DrumPad letter="E" />
+        <DrumPad letter="A" />
+        <DrumPad letter="S" />
+        <DrumPad letter="D" />
+        <DrumPad letter="Z" />
+        <DrumPad letter="X" />
+        <DrumPad letter="C" />
       </div>
     );
   }
@@ -65,13 +53,50 @@ const Display = () => {
   );
 }
 
-const DrumPad = (props) => {
-  let url = sounds[props.letter];
-  //the clipid of the div is the same as the id of the audio
-  return(
-    <button className="drum-pad" id={props.letter + "Pad"} clipid={props.letter} onClick={props.onClick}>
-      <audio src={url} className="clip" id={props.letter}></audio>
-      {props.letter}
-    </button>
-  )
+class DrumPad extends React.Component {
+  constructor(props){
+    super(props);
+    this.playSound = this.playSound.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  handleKeyPress(e) {
+    if(e.keyCode == this.props.letter.charCodeAt(0)){
+      this.playSound();
+    }
+  }
+
+  playSound(e) {
+    let sound = document.getElementById(this.props.letter);
+    sound.currentTime = 0;
+    let soundPromise = sound.play();
+    //the lines of code below are to deal with errors being thrown and i have no idea what they're doing because im not sure where the call to pause() is coming from.
+    // source https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
+    if(soundPromise !== undefined){
+      soundPromise.then(_ => { /*nothing???*/ }).catch(error => { /*still nothing/??*/ });
+    }
+  }
+
+  render() {
+    let url = sounds[this.props.letter];
+    //the clipid of the button is the same as the id of the audio
+    return(
+      <button className="drum-pad" 
+              id={this.props.letter + "Pad"} 
+              clipid={this.props.letter} 
+              onClick={this.playSound}>
+        <audio src={url} className="clip" 
+                         id={this.props.letter}></audio>
+        {this.props.letter}
+      </button>
+    );
+  }
 }
