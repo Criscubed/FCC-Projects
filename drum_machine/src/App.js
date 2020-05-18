@@ -4,7 +4,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <Description />
       <DrumMachine />
+      <Credits />
     </div>
   );
 }
@@ -23,11 +25,19 @@ const sounds={
   'C': 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
 }
 
+const Description = () => {
+  return(
+    <h2>
+    Drum Machine
+    </h2>
+  )
+}
+
 class DrumMachine extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      display: "bitch"
+      display: "Press a button!"
     };
     this.changeDisplay = this.changeDisplay.bind(this);
   }
@@ -41,16 +51,18 @@ class DrumMachine extends React.Component {
   render() {
     return(
       <div id="drum-machine">
+        <div id="pad-container">
+          <DrumPad letter="Q" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="W" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="E" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="A" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="S" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="D" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="Z" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="X" changeDisplay={this.changeDisplay}/>
+          <DrumPad letter="C" changeDisplay={this.changeDisplay}/>
+        </div>
         <Display display={this.state.display}/>
-        <DrumPad letter="Q" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="W" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="E" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="A" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="S" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="D" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="Z" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="X" changeDisplay={this.changeDisplay}/>
-        <DrumPad letter="C" changeDisplay={this.changeDisplay}/>
       </div>
     );
   }
@@ -112,3 +124,12 @@ class DrumPad extends React.Component {
     );
   }
 }
+
+const Credits = () => {
+  return(
+    <div id="credits">
+      Made by crispy cubes<br></br>
+      Powered by FreeCodeCamp
+    </div>
+  );
+} 
