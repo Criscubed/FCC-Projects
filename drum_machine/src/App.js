@@ -92,7 +92,7 @@ class DrumPad extends React.Component {
   }
 
   handleKeyPress(e) {
-    if(e.keyCode == this.props.letter.charCodeAt(0)){
+    if(e.keyCode === this.props.letter.charCodeAt(0)){
       this.playSound();
     }
   }
