@@ -16,7 +16,8 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       display: "0",
-      decimal: false
+      decimal: false,
+      shouldClear: false
     };
     this.clearDisplay = this.clearDisplay.bind(this);
     this.inputNumber = this.inputNumber.bind(this);
@@ -34,16 +35,16 @@ class Calculator extends React.Component {
 
   inputNumber(e){
     let temp;
-    if(this.state.display !== "0"){
+    if(this.state.display !== "0" && !this.state.shouldClear){
       //concatonate the current button press into the input
-      console.log(this.state.display);
       temp = this.state.display.concat(e.target.textContent);
     } else {
       //begin constructing the input
       temp =e.target.textContent
     }
     this.setState({
-      display: temp
+      display: temp,
+      shouldClear: false
     });
   }
 
@@ -51,33 +52,35 @@ class Calculator extends React.Component {
   inputOperation(e){
     let symbol = e.target.textContent;
     let lastChar = this.state.display.charAt(this.state.display.length - 1);
-    if(this.state.display !== "0"){
-      if(lastChar !== " "){
-        if(lastChar !== "-"){
-          this.setState({ //last button pressed was strictly a number or decimal
-            display: this.state.display.concat(" " + symbol + " "),
-            decimal: false
-          });
-        } else {
-          let temp = this.state.display.substring(0, this.state.display.length - 4);
-          this.setState({ //last button pressed was to start a negative number but wanted to do a different operation instead
-            display: temp.concat(" " + symbol + " "),
-            decimal: false
-          });
-        }
+    if(lastChar !== " "){
+      if(lastChar !== "-"){
+        this.setState({ //last button pressed was strictly a number or decimal
+          display: this.state.display.concat(" " + symbol + " "),
+          decimal: false,
+          shouldClear: false
+        });
       } else {
-        if(symbol === '-'){
-          this.setState({ //last button pressed was an operation and this '-' was for a negative number instead of a subtraction
-            display: this.state.display.concat(symbol),
-            decimal: false
-          });
-        } else {
-          let temp = this.state.display.substring(0, this.state.display.length - 3);
-          this.setState({ //last button pressed was an operation and this replaces it
-            display: temp.concat(" " + symbol + " "),
-            decimal: false
-          });
-        }
+        let temp = this.state.display.substring(0, this.state.display.length - 4);
+        this.setState({ //last button pressed was to start a negative number but wanted to do a different operation instead
+          display: temp.concat(" " + symbol + " "),
+          decimal: false,
+          shouldClear: false
+        });
+      }
+    } else {
+      if(symbol === '-'){
+        this.setState({ //last button pressed was an operation and this '-' was for a negative number instead of a subtraction
+          display: this.state.display.concat(symbol),
+          decimal: false,
+          shouldClear: false
+        });
+      } else {
+        let temp = this.state.display.substring(0, this.state.display.length - 3);
+        this.setState({ //last button pressed was an operation and this replaces it
+          display: temp.concat(" " + symbol + " "),
+          decimal: false,
+          shouldClear: false
+        });
       }
     }
   }
@@ -85,15 +88,21 @@ class Calculator extends React.Component {
   parseEquation(){
     let calculations = this.state.display.split(" ");
     calculations = calculations.filter(x => x); //remove empty strings from .split
-    console.log(calculations);
     let answer = parserHelper(calculations);
     this.setState({
-      display: answer
+      display: answer,
+      shouldClear: true
     });
   }
 
   addDecimal(){
-    if(!this.state.decimal){ //if there is no decimal
+    if(this.state.shouldClear){
+      this.setState({
+        display: "0.",
+        decimal: true,
+        shouldClear: false
+      });
+    } else if(!this.state.decimal){ //if there is no decimal
       this.setState({
         display: this.state.display.concat("."),
         decimal: true
@@ -195,17 +204,3 @@ function doTheMath(x,o,y) {
       return 0;
   }
 }
-
-/*known bugs with this calculator:
-
-trying "2 + 2." with a decimal at the will return 4 as expected, but will not allow a decimal point to be added to the four for the next equation
-
-"2 + 2" will return 4 as expected, and inputing an operation will function as expected,
-however, inputing a number instead will not clear the display as expected
-
-the components for number, decimal, clerar, and operation are all the same and may possibly be redundant
-who knows what other bugs exist
-
-*/
-
-
