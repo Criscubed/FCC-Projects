@@ -4,7 +4,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <h1>Javascript<br></br> Calculator</h1>
       <Calculator />
+      <Credits />
     </div>
   );
 }
@@ -114,24 +116,23 @@ class Calculator extends React.Component {
     return(
       <div id="calculator">
         <Display display={this.state.display}/>
-        <br></br>
-        <Equals onClick={this.parseEquation} />
-        <Number digit="0" number="zero" onClick={this.inputNumber} />
-        <Number digit="1" number="one" onClick={this.inputNumber} />
-        <Number digit="2" number="two" onClick={this.inputNumber} />
-        <Number digit="3" number="three" onClick={this.inputNumber} />
-        <Number digit="4" number="four" onClick={this.inputNumber} />
-        <Number digit="5" number="five" onClick={this.inputNumber} />
-        <Number digit="6" number="six" onClick={this.inputNumber} />
+        <Clear name="clear" symbol="c" onClick={this.clearDisplay}/>
+        <Operation name="divide" symbol="/" onClick={this.inputOperation} />
+        <Operation name="multiply" symbol="*" onClick={this.inputOperation} />
         <Number digit="7" number="seven" onClick={this.inputNumber} />
         <Number digit="8" number="eight" onClick={this.inputNumber} />
         <Number digit="9" number="nine" onClick={this.inputNumber} />
-        <Operation name="add" symbol="+" onClick={this.inputOperation} />
         <Operation name="subtract" symbol="-" onClick={this.inputOperation} />
-        <Operation name="multiply" symbol="*" onClick={this.inputOperation} />
-        <Operation name="divide" symbol="/" onClick={this.inputOperation} />
+        <Number digit="4" number="four" onClick={this.inputNumber} />
+        <Number digit="5" number="five" onClick={this.inputNumber} />
+        <Number digit="6" number="six" onClick={this.inputNumber} />
+        <Operation name="add" symbol="+" onClick={this.inputOperation} />
+        <Number digit="1" number="one" onClick={this.inputNumber} />
+        <Number digit="2" number="two" onClick={this.inputNumber} />
+        <Number digit="3" number="three" onClick={this.inputNumber} />
+        <Number digit="0" number="zero" onClick={this.inputNumber} />
         <Decimal name="decimal" symbol="." onClick={this.addDecimal}/>
-        <Clear name="clear" symbol="c" onClick={this.clearDisplay}/>
+        <Equals onClick={this.parseEquation} />
       </div>
     );
   }
@@ -204,3 +205,11 @@ function doTheMath(x,o,y) {
       return 0;
   }
 }
+
+const Credits = () => {
+  return(
+    <div id="credits">
+      Made by crispy cubes
+    </div>
+  );
+} 
