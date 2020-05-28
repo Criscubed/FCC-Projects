@@ -3,7 +3,9 @@ import React from 'react';
 function App() {
   return (
     <div className="App">
+      <h1>Pomodoro Clock</h1>
       <Clock />
+      <Credits />
     </div>
   );
 }
@@ -124,11 +126,11 @@ class Clock extends React.Component {
 
   render() {
     return(
-      <div className="Clock">
-        <Break onClick={this.changeBreak} num={this.state.break}/>
+      <div className="clock">
         <Session onClick={this.changeSession} num={this.state.session}/>
+        <Break onClick={this.changeBreak} num={this.state.break}/>
         <Timer time={this.state.time} active={this.state.sessionActive}/>
-        <Control start={this.startTimer} reset={this.resetTimer} paused={this.state.timerPaused}/>
+        <Control start={this.startTimer} reset={this.resetTimer} paused={this.state.timerPaused} running={this.state.timerRunning}/>
       </div>
     );
   }
@@ -139,7 +141,7 @@ const Break = (props) => {
     <div id="break-label">
       <p>break</p>
       <button id="break-increment" onClick={props.onClick}>+</button>
-      <div id="break-length">{props.num}</div>
+      <div className="num" id="break-length">{props.num}</div>
       <button id="break-decrement" onClick={props.onClick}>-</button>
     </div>
   );
@@ -152,7 +154,7 @@ const Session = (props) => {
         session
       </p>
       <button id="session-increment" onClick={props.onClick}>+</button>
-      <div id="session-length">{props.num}</div>
+      <div className="num" id="session-length">{props.num}</div>
       <button id="session-decrement" onClick={props.onClick}>-</button>
     </div>
   );
@@ -179,13 +181,17 @@ const Timer = (props) => {
 
 const Control = (props) => {
   let pausePlay = "";
-  if(props.paused){
+  if(!props.running){
     pausePlay = "play";
   } else {
-    pausePlay = "pause"
+    if(props.paused){
+      pausePlay = "play";
+    } else {
+      pausePlay = "pause"
+    }
   }
   return (
-    <div>
+    <div id="control">
       <button id="start_stop" onClick={props.start}>{pausePlay}</button>
       <button id="reset" onClick={props.reset}>reset</button>
     </div>
@@ -203,3 +209,11 @@ function timeToSeconds(time){
   }
   return seconds + ":" + milliseconds;
 }
+
+const Credits = () => {
+  return(
+    <div id="credits">
+      Made by crispy cubes
+    </div>
+  );
+} 

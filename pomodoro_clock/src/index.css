@@ -1,6 +1,67 @@
 body {
   margin: 0;
   font-family:  Helvetica;
+  min-height: 100vh;
+  margin-top: -20vh;
   display: grid;
   place-items: center;
+  text-align: center;
+  background-color: #eee;
+}
+
+h1 {
+  background-color: white;
+  box-shadow: 0 2px 2px #ccc;
+  padding: 10px;
+}
+
+.clock {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 2px #ccc;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+button {
+  background: #eee;
+  border: 0.5px solid #999;
+  border-radius: 2px;
+  padding: 5px 10px;
+  margin: 1px;
+}
+
+#break-label {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  margin: 10px;
+}
+
+#session-label {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  margin: 10px;
+}
+
+#timer-label {
+  margin: 10px;
+}
+
+#control {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  padding: 10px;
+  align-self: center;
+  display: grid;
+}
+
+.num {
+  padding: 10px;
+}
+
+#credits {
+  color: #ccc;
+  font-size: 1em;
+  margin: 20px;
 }
